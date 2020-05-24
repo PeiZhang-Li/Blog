@@ -1,0 +1,10 @@
+const express=require('express');
+const app=express();
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
+const Router=require('./controller/router');
+const routeroff=require('./controller/router-off');
+app.use(Router);
+app.use('/user',routeroff);
+app.use('/upload', express.static('upload'));
+app.listen(3000);
