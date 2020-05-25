@@ -79,6 +79,10 @@
 
 
     * {
-        transition: all 0.5s;
+        transition: all 0.2s;
+    }
+    .main{
+        width: 1200px;
+        margin: 0 auto;
     }
 </style>

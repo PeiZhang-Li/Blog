@@ -57,8 +57,6 @@
                         if(res.data.code==='500'){
                             this.$message.error('用户名或者密码错误')
                         }else{
-                           await this.$store.dispatch('SETAUTHORITY',res.data.Authority);//设置权限信息
-                            delete res.data.Authority;     //删除权限信息,防止用户篡改
                             localStorage.setItem('userinfo',JSON.stringify(res.data));// 在缓存中设置用户登录状态
                             this.$message.success('登录成功');
                         }

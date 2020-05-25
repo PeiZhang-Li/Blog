@@ -4,7 +4,7 @@ import qs from 'qs';
 import { Message } from 'element-ui';
 import { baseUrl } from "./.env";
 import { showLoading, hideLoading } from './loading';
-import stroe from '../src/store/index'
+
 import router from '../src/router/index'
 const service = axios.create({ baseURL: baseUrl, timeout: 60000 });
 //请求拦截器
@@ -36,13 +36,9 @@ service.interceptors.request.use(async config => {
 service.interceptors.response.use(async response => {
     if(response.data===-207){
         //用户身份过期，清空所有登录信息
-        await stroe.dispatch('SETAUTHORITY',response.headers.authority);
         localStorage.removeItem('userinfo')
         Message.error('用户身份过期，请重新登录')
         router.push('/login')
-    }
-    if(response.headers.authority){
-       await stroe.dispatch('SETAUTHORITY',response.headers.authority);//设置权限信息
     }
     hideLoading();//取消请求动画
     return response;

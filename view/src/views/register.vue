@@ -28,9 +28,7 @@
                        <el-button @click="submit('ruleForm')">注册</el-button>
                    </div>
                </div>
-
             </el-form>
-
         </div>
     </div>
 </template>
@@ -52,7 +50,7 @@
                     if(!valid){
                         this.$message.error('请您检查,提交失败')
                     }else{
-                        this.ruleForm['Authority']='0'//设置一个默认权限
+                        this.ruleForm['Authority']='1'//设置一个默认权限
                         delete this.ruleForm.code;//删除验证码
                      let res=  await this.$http.post('/register',{'ruleForm':JSON.stringify(this.ruleForm)})
                         if(res.data.code==='200'){

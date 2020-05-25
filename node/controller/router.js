@@ -18,8 +18,9 @@ Router.post('/register', (req, res) => {
     //进行加密操作
     data.password = crypto.createHmac('sha256', secret).update(data.password).digest('hex');
     //向数据库完成添加
-    mongo.zeng('blog', 'user', data, data.email).then(data => {
-        if (data === 1) {
+
+    mongo.zeng('blog', 'user', data, {'email':data.email}).then(data => {
+        if (data == 1) {
             //添加成功返回
             res.send({code: '200'})
         } else {
