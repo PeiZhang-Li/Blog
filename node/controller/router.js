@@ -84,5 +84,8 @@ Router.post('/Resetaccount',(req,res)=>{
     }
 
 })
+//获取文章
+Router.post('/getblog',(req,res)=>{
 
+})
 module.exports = Router;

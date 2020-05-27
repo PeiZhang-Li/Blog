@@ -9,7 +9,10 @@ let jwt = require('jsonwebtoken');
 //引入处理文件的模块
 let multiparty=require('multiparty')
 //引入fs
-let fs=require('fs')
+let fs=require('fs');
+//引入mongodb相关处理
+let objectId = require('mongodb').ObjectID;
+//全局拦截器
 Router.use((req,res,next)=>{
     jwt.verify(req.headers.authorization, 'suibian', function(err, decoded) {
         if(!err){
@@ -39,7 +42,7 @@ Router.post('/upBlog',(req,res)=>{
         form.parse(req,(err, fields, files)=>{
             let username=fields.username[0];
             let email=fields.email;
-            let path=files.file[0].path;
+             let path=files.file[0].path;
             mongo.cha('blog','user',{'email':email[0]}).then(data=>{
                  if(data[0].url){
                      let oldurl=data[0].url;
@@ -56,5 +59,95 @@ Router.post('/upBlog',(req,res)=>{
         })
     }
 })
+//上传分类
+Router.post('/upMenu',(req,res)=>{
+    console.log(req.body.menuName)
+    mongo.zeng('blog','menu',req.body,req.body).then(data=>{
+       if(data==1){
+           res.send('200')
+       }else{
+           res.send('501')
+       }
+    })
+})
+//获取分类
+Router.post('/getMenu',(req,res)=>{
+    mongo.cha('blog','menu',{}).then(data=>{
+          res.send(data)
+    })
+})
+//删除分类
+Router.post('/removeMenu',(req,res)=>{
+   let _id=objectId(req.body._id);
+    mongo.shan('blog','menu',{_id}).then(data=>{
+        if(data==1){
+            res.send('200')
+        }else{
+            res.send('501')
+        }
+    })
+
+})
+//获取用户信息
+Router.post('/getUsrtinfo',(req,res)=>{
+    mongo.cha('blog','user',{}).then(data=>{
+        let arr=[]
+        data.forEach(item=>{
+            delete item.password;
+            delete item.url;
+            arr.push(item)
+        })
+        res.send(arr);
+    })
+})
+//设置用户信息
+Router.post('/setUserinfo',(req,res)=>{
+     let data=JSON.parse(req.body.userinfo);
+     let _id=objectId(data._id);
+     delete data._id;
+     mongo.xiu('blog','user',{_id},data).then(data=>{
+         if(data==1){
+             res.send('200')
+         }else{
+             res.send('501')
+         }
+     })
+
+})
+//上传图片
+Router.post('/upImg',(req,res)=>{
+    let form = new multiparty.Form();
+    form.uploadDir = "upload/bolg"; //设置文件上传的目录
+    form.parse(req,(err, fields, files)=>{
+
+         res.send({'path':files.file[0].path})
+    })
+})
+//上传文章
+Router.post('/upBlogs',(req,res)=>{
+    let form = new multiparty.Form();
+    form.uploadDir = "upload/bolg"; //设置文件上传的目录
+    form.parse(req,(err,fileds,files)=>{
+           let titleimgpath=files.file[0].path;
+            let data=JSON.parse(fileds.data[0]);
+            data.removearr.forEach(item=>{
+                fs.unlink(item,()=>{})
+            })
+            delete  data.removearr
+              data['filearr']=JSON.stringify(data.filearr)
+            data['titleimgpath']=titleimgpath
+           mongo.zeng('blog','w-blog',data,{'title':data.title}).then(data=>{
+               if (data == 1) {
+                   //添加成功返回
+                   res.send({code: '200'})
+               } else {
+                   //添加失败返回，包含重复添加也会被阻止,上面的形参最后一位就是用户唯一值
+                   res.send({code: '500'})
+               }
+           })
+    })
+})
+
+
 module.exports=Router;
 

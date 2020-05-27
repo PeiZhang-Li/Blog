@@ -31,10 +31,7 @@
              arr(){
                  return this.$store.state.Authorityarr
              }
-        },
-           created() {
-            console.log(this.arr)
-           }
+        }
     }
 </script>
 

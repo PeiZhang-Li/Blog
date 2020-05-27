@@ -10,7 +10,10 @@ Vue.config.productionTip = false
 Vue.prototype.$http=http;
 import ups from "../filter/filterpath";
 import { Message } from 'element-ui';
-let loginroute=['/Personalcenter']
+let loginroute=['/Personalcenter'];//需要登录的路由
+const reups=Vue.filter('reups', function (v) {
+    return v.replace('/','\\')
+});
 router.beforeEach((to,form,next)=>{
    if(loginroute.includes(to.path)){
      if(localStorage.getItem('userinfo')){
