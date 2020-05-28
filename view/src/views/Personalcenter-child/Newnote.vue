@@ -125,6 +125,7 @@
                         let fd=new FormData();
                         this.ruleForm['date']=this.getTimes();
                         this.ruleForm['username']=JSON.parse(localStorage.getItem('userinfo')).username;
+                        this.ruleForm['email']=JSON.parse(localStorage.getItem('userinfo')).email;
                         this.ruleForm['Authority']=0;
                         fd.append('file',this.file)
                         fd.append('data',JSON.stringify(this.ruleForm))
@@ -182,6 +183,17 @@
             //去拿分类数据
             let res=await this.$http.post('/user/getMenu');
             this.selectarr=res.data;
+        },
+        beforeRouteEnter(to,form,next){
+              let data=JSON.parse(localStorage.getItem('userinfo'));
+              if(data.Authority!=3){
+                  next();
+              }else{
+                  next(vm => {
+                       vm.$message.error('您已被禁言,请联系管理员')
+                       vm.$router.push('/Personalcenter')
+                  })
+              }
         }
     }
 </script>

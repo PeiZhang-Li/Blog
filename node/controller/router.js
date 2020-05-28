@@ -84,8 +84,12 @@ Router.post('/Resetaccount',(req,res)=>{
     }
 
 })
+
+
 //获取文章
 Router.post('/getblog',(req,res)=>{
-
+mongo.cha('blog','w-blog',{}).then(data=>{
+    res.send(data)
+})
 })
 module.exports = Router;

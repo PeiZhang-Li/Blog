@@ -12,6 +12,8 @@ const PersonalInformation =()=>import('../views/Personalcenter-child/Personal-in
 const classification=()=>import('../views/Personalcenter-child/classification')
 const UserManagement=()=>import('../views/Personalcenter-child/User-Management')
 const newNode=()=>import('../views/Personalcenter-child/Newnote')
+const auditNote=()=>import('../views/Personalcenter-child/auditNote')
+const userNote=()=>import('../views/Personalcenter-child/userNote')
 Vue.use(VueRouter)
 
   const routes = [
@@ -55,6 +57,14 @@ Vue.use(VueRouter)
           meta: {
             name:'新建笔记'
           }
+        },
+        {
+          path:'/Personalcenter/userNote',
+          name:'userNote',
+          component:userNote,
+          meta: {
+              name:'个人文章管理'
+          }
         }
       ]
     },
@@ -82,6 +92,15 @@ const asyncroutes=[
       Authority:['0'],
       name:'用户管理'
     }
+  },
+  {
+    path:'/Personalcenter/auditNodte',
+    name:'auditNote',
+    component:auditNote,
+    meta:{
+      Authority:['0'],
+      name:'帖子审核'
+    },
   }
 
 ]

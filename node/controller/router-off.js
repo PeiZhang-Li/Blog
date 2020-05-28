@@ -147,7 +147,43 @@ Router.post('/upBlogs',(req,res)=>{
            })
     })
 })
+//审核
+Router.post('/audit',(req,res)=>{
+    let data=JSON.parse(req.body.data);
+    let _id=objectId(data._id)
+    delete data._id;
+    mongo.xiu('blog','w-blog',{_id},data).then(data=>{
+       if(data==1){
+           res.send('200')
+       }else{
+           res.end()
+       }
+    })
 
+})
+//删除文章
+Router.post('/removeBlog',(req,res)=>{
+    let _id=objectId(JSON.parse(req.body.id));
+    let filearr=JSON.parse(req.body.filearr)
+    mongo.shan('blog','w-blog',{_id}).then(data=>{
+        if(data==1){
+               filearr.forEach(item=>{
+                    fs.unlink(item,()=>{})
+               })
+            res.send('200')
+        }else{
+            res.end();
+        }
+    })
+})
+//获取个人文章
+Router.post('/getBlog',(req,res)=>{
+    let email=JSON.parse(req.body.email);
 
+    mongo.cha('blog','w-blog',{email}).then(data=>{
+           res.send(data)
+    })
+
+})
 module.exports=Router;
 

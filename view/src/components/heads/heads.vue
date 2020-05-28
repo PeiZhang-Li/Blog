@@ -12,7 +12,7 @@
                                  ></el-image>
                             {{username}}
                      </template>
-                     <el-menu-item index="/Personalcenter"><i class="el-icon-user"></i>个人中心</el-menu-item>
+                     <el-menu-item index="/Personalcenter"><i class="el-icon-s-operation"></i>控制中心</el-menu-item>
                      <el-menu-item @click="tuichu"><i class="el-icon-switch-button"></i>退出登录</el-menu-item>
                  </el-submenu>
              </el-menu>
