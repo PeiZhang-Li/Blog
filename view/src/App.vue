@@ -64,7 +64,7 @@
     body {
         color: #333;
         padding: 0;
-        font: 12px/20px "SimSun", "宋体", "Arial Narrow", HELVETICA;
+        font: 12px/20px "SimSun", "微软雅黑", "Arial Narrow", HELVETICA;
         background: #fff; /* overflow-y:scroll;*/
     }
 
