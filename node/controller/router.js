@@ -92,4 +92,31 @@ mongo.cha('blog','w-blog',{}).then(data=>{
     res.send(data)
 })
 })
+//获取个人文章中的用户信息
+Router.post('/getuserinfo',(req,res)=>{
+    let email=req.body.email;
+     mongo.cha('blog','user',{email}).then(data=>{
+         let datas=data[0];
+         delete datas.password;
+         delete datas._id;
+         delete datas.Authority;
+         res.send(datas)
+     })
+})
+//获取分类
+Router.post('/getmenu',(req,res)=>{
+    mongo.cha('blog','menu',{}).then(data=>{
+        res.send(data)
+    })
+})
+//获取数据
+Router.post('/getdata',(req,res)=>{
+    let obj={'Authority':1}
+   if(req.body.name){
+       obj={'select':req.body.name,'Authority':1}
+   }
+    mongo.cha('blog','w-blog',obj).then(data=>{
+          res.send(data)
+    })
+})
 module.exports = Router;

@@ -185,5 +185,6 @@ Router.post('/getBlog',(req,res)=>{
     })
 
 })
+
 module.exports=Router;
 

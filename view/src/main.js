@@ -14,7 +14,7 @@ let loginroute=['/Personalcenter'];//需要登录的路由
 const reups=Vue.filter('reups', function (v) {
     return v.replace('/','\\')
 });
-router.beforeEach((to,form,next)=>{
+router.beforeEach(async (to,form,next)=>{
    if(loginroute.includes(to.path)){
      if(localStorage.getItem('userinfo')){
          next();

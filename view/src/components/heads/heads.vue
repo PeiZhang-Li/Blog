@@ -1,8 +1,9 @@
 <template>
     <div class="box">
          <div class="box-content">
-             <el-menu  class="el-menu-demo" mode="horizontal" :default-active="this.$route.path" router>
-<!--                 <el-menu-item index="1">处理中心</el-menu-item>-->
+             <el-menu  class="el-menu-demo" mode="horizontal"  default-active="2">
+                 <el-menu-item><router-link to="/">首页</router-link></el-menu-item>
+                 <el-menu-item v-for="(item,index) of arr" :key="index"><router-link :to="{path:'/',query:{'name':item.menuName}}">{{item.menuName}}</router-link></el-menu-item>
                  <el-menu-item v-if="!kg" style="float:right" index="/login">{{username}}</el-menu-item>
                  <el-submenu style="float:right;" index="/" v-if="kg">
                      <template slot="title" >
@@ -12,7 +13,8 @@
                                  ></el-image>
                             {{username}}
                      </template>
-                     <el-menu-item index="/Personalcenter"><i class="el-icon-s-operation"></i>控制中心</el-menu-item>
+                     <router-link to="/Personalcenter"> <el-menu-item ><i class="el-icon-s-operation"></i>控制中心</el-menu-item></router-link>
+
                      <el-menu-item @click="tuichu"><i class="el-icon-switch-button"></i>退出登录</el-menu-item>
                  </el-submenu>
              </el-menu>
@@ -28,7 +30,8 @@
             return{
                 url:'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
                 username:'',
-                kg:false
+                kg:false,
+                arr:[]
             }
         },
         methods:{
@@ -37,7 +40,9 @@
                      this.$router.push('/login')
                  }
         },
-        created() {
+      async  created() {
+            let res=await this.$http.post('/getmenu');
+            this.arr=res.data;
             if(localStorage.getItem('userinfo')){
                 this.kg=true;
                 let data=JSON.parse(localStorage.getItem('userinfo'));
@@ -62,5 +67,15 @@
     .box-content{
         width: 1200px;
         margin: 0 auto;
+    }
+
+.el-menu--horizontal > .el-menu  .router-link-exact-active  .el-menu-item {
+ color: #409EFF ;
+}
+.el-menu--horizontal > .el-menu  .router-link-exact-active  .el-menu-item i{
+    color: #409EFF;
+}
+    .box-content > .el-menu--horizontal > .el-menu-item > .router-link-exact-active{
+        color: #409EFF;
     }
 </style>

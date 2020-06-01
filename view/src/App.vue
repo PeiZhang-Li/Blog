@@ -76,13 +76,9 @@
     a:visited {
         color: #666;
     }
-
-
-    * {
-        transition: all 0.2s;
-    }
     .main{
         width: 1200px;
         margin: 0 auto;
     }
+
 </style>
